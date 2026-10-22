@@ -121,27 +121,26 @@ function push() {
   console.log(`\nship: pushing ${branch} (${ahead} commit${ahead === 1 ? '' : 's'} ahead of ${base})`);
   if (spawnSync('git', ['push', '-u', 'origin', branch], { stdio: 'inherit' }).status !== 0) fail('push failed. Commits are still local.');
 
-  const win = process.platform === 'win32';
-  const ghReady = spawnSync('gh', ['auth', 'status'], { stdio: 'ignore', shell: win }).status === 0;
+  const ghReady = spawnSync('gh', ['auth', 'status'], { stdio: 'ignore' }).status === 0;
   if (!ghReady) {
     const url = git('remote', 'get-url', 'origin').replace(/^git@github\.com:/, 'https://github.com/').replace(/\.git$/, '');
     console.log(`\nship: GitHub CLI not available or not signed in, so no PR was created automatically.\nOpen or review the PR here: ${url}/compare/${base}...${encodeURIComponent(branch)}?expand=1`);
     return;
   }
-  const view = spawnSync('gh', ['pr', 'view', branch, '--json', 'url,state', '--jq', 'select(.state=="OPEN") | .url'], { encoding: 'utf8', shell: win });
+  const view = spawnSync('gh', ['pr', 'view', branch, '--json', 'url,state', '--jq', 'select(.state=="OPEN") | .url'], { encoding: 'utf8' });
   const existing = (view.stdout || '').trim();
   const title = arg('--title'), body = arg('--body-file');
   if (existing) {
     const edit = ['pr', 'edit', branch];
     if (title) edit.push('--title', title);
     if (body) edit.push('--body-file', body);
-    if (edit.length > 3) spawnSync('gh', edit, { stdio: 'inherit', shell: win });
+    if (edit.length > 3) spawnSync('gh', edit, { stdio: 'inherit' });
     console.log(`\nship: updated pull request ${existing}`);
   } else {
     const create = ['pr', 'create', '--base', base, '--head', branch];
     if (title) create.push('--title', title); else create.push('--fill');
     if (body) create.push('--body-file', body); else if (title) create.push('--body', '');
-    if (spawnSync('gh', create, { stdio: 'inherit', shell: win }).status !== 0) fail('pushed, but creating the pull request failed.');
+    if (spawnSync('gh', create, { stdio: 'inherit' }).status !== 0) fail('pushed, but creating the pull request failed.');
   }
 }
 
