@@ -21,6 +21,7 @@ The repo is scaffolded: the route, component and library files exist but are emp
 | Area | Status |
 | --- | --- |
 | Expo app screens | 📋 Planned (files empty) |
+| Supabase database: schema, RLS, tests | 🚧 Migration written and tested; not yet applied to the shared dev project. See [[Database]] |
 | Clickable wireframe with dark design system | ✅ Redesigned 2026-10-21 (uncommitted) |
 | Git workflow: feature branches, checks, guarded pushes, PRs | ✅ Set up 2026-10-21 (uncommitted) |
 | Price data source | 🚧 Researching; see [[Projects/Collectibles Trading Platform/10 - Price Data Source|Price Data Source]] |
@@ -28,7 +29,8 @@ The repo is scaffolded: the route, component and library files exist but are emp
 ## Notes
 
 - [[Architecture]]: file structure, screen map and repo tooling
-- [[Decisions]]: design system, Git workflow and docs decisions
+- [[Database]]: schema, ER diagram, RLS, migrations and setup for both developers
+- [[Decisions]]: design system, Git workflow, docs and database decisions
 - [[Roadmap]]: order of work
 - [[Development-Log]]: dated history of changes
 - [[Ideas]]: unscheduled ideas

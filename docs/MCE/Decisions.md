@@ -8,6 +8,22 @@ updated: 2026-10-21
 
 Dated records of choices worth remembering. Newest first. Back to [[Home]].
 
+## 2026-10-22 · MVP database: variants on holdings, private costs, ownership by foreign key
+
+- **Context:** the first schema for portfolio, marketplace and trading, shared by two developers on one dev project.
+- **Decisions:**
+  - `collectibles` is a shared catalog of products. Condition and grade belong to the physical copy, so they live on `holdings` (`item_type` raw/graded/sealed, with constraints per type). Each graded slab is its own holding.
+  - Purchase cost sits in an owner-only `holding_costs` table, because RLS hides rows, not columns, and holdings are visible to others when open to trade, listed or in a trade.
+  - Listings, trade items and costs reference `holdings (id, owner_id)`, so ownership is guaranteed by the database whoever writes the row.
+  - Clients may change only a trade's `status`, along transitions checked by a trigger. Moving ownership after acceptance is left to trusted server code.
+  - Explicit grants to `anon`/`authenticated`, because Supabase no longer exposes new tables to the Data API automatically.
+  - Tests run in PGlite locally (no Docker) and on Supabase's Postgres image in CI.
+- **Alternatives:**
+  - Grade on `collectibles`: rejected, because the catalog would multiply per grade and depend on users.
+  - Column-level grants for cost: rejected, because owners couldn't read their own cost through the API either.
+  - A `SECURITY DEFINER` view for public holdings: rejected, because it bypasses RLS.
+- **Consequences:** see [[Database#Known limitations]] and [[Database#Planned schema changes]].
+
 ## 2026-10-21 · Project docs live in this in-repo vault, mapped by role
 
 - **Context:** documentation should be kept up to date automatically by Claude Code across all repos.

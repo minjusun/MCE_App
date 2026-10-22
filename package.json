@@ -1,0 +1,13 @@
+{
+  "name": "mce-app",
+  "private": true,
+  "scripts": {
+    "test:db": "node scripts/db-test/run.mjs",
+    "db:types": "supabase gen types typescript --local --schema public > types/database.ts"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
+    "@electric-sql/pglite-pgtap": "0.0.12",
+    "supabase": "2.121.0"
+  }
+}

@@ -1,5 +1,12 @@
 [
   {
+    "name": "database tests",
+    "kind": "integration",
+    "cmd": "npm run test:db",
+    "requires": "node_modules/@electric-sql/pglite",
+    "hint": "run npm install"
+  },
+  {
     "name": "wireframe smoke test",
     "kind": "e2e",
     "cmd": "node tests/wireframe-smoke.mjs",
