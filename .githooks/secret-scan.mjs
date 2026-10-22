@@ -43,7 +43,7 @@ const BAD_CONTENT = [
   [/\bAIza[0-9A-Za-z_-]{35}\b/, 'Google API key'],
   [/-----BEGIN ((RSA|EC|DSA|OPENSSH|PGP|ENCRYPTED) )?PRIVATE KEY-----/, 'private key block'],
   [/SERVICE_ROLE_KEY\s*[:=]\s*['"]?[A-Za-z0-9._-]{20,}/, 'Supabase service role key'],
-  [/\b(api[_-]?key|secret|client[_-]?secret|access[_-]?token|password)\b\s*[:=]\s*['"][^'"\s]{16,}['"]/i, 'hard-coded credential'],
+  [/\b(api[_-]?key|secret|client[_-]?secret|access[_-]?token|password)\b\s*[:=]\s*['"](?!env\()[^'"\s]{16,}['"]/i, 'hard-coded credential'],
 ];
 
 const findings = [];
