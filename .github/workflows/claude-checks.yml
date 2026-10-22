@@ -1,0 +1,34 @@
+# Same deterministic checks Claude runs locally (node .claude/scripts/ship.mjs check), on every PR and push to main.
+# Repo-specific CI setup (e.g. installing browsers) goes in .claude/ci-setup.sh.
+name: Checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        if: hashFiles('package-lock.json', 'pnpm-lock.yaml', 'yarn.lock') != ''
+        run: |
+          if [ -f pnpm-lock.yaml ]; then corepack enable && pnpm install --frozen-lockfile
+          elif [ -f yarn.lock ]; then corepack enable && yarn install --frozen-lockfile
+          else npm ci; fi
+      - name: Repo-specific setup
+        if: hashFiles('.claude/ci-setup.sh') != ''
+        run: bash .claude/ci-setup.sh
+      - name: Lint, types, tests, build, security
+        run: node .claude/scripts/ship.mjs check --e2e

@@ -1,1 +1,8 @@
 .env
+docs/MCE/.obsidian/workspace*.json
+.env.*
+!.env.example
+*.pem
+*.key
+.claude/settings.local.json
+node_modules/
