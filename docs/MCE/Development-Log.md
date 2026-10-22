@@ -8,6 +8,12 @@ updated: 2026-10-21
 
 Newest first. Back to [[Home]].
 
+## 2026-10-22
+- Database foundation for the MVP: Supabase CLI project, migration `20261022020652_mvp_schema` (7 tables, RLS on all, explicit Data API grants, trade transition rules), pgTAP tests, PGlite runner and a Database CI workflow. Not applied to the shared dev project. Links: [[Database]], [[Decisions]]
+  - Review: `security-auditor` (no critical/high; 3 medium, 5 low) and `code-reviewer` (1 blocking: the test runner could report PASS with no tests; 6 should-fix). All fixed: trade terms locked at creation via `propose_trade`, holdings deletable after finished trades, costs can't follow ownership changes, one counter per trade, offer limit, unique raw/sealed variants, column-level grants, quantity guard, inbox indexes.
+  - Tests: `npm run test:db` → 129/129 passed (PGlite, Postgres 18.6). Mutation check: 18/18 deliberately broken rules caught. Supabase-image CI run: pending on the PR.
+  - Commit/PR: on branch `feat/db-foundation`; link added when the PR exists.
+
 ## 2026-10-21
 - Added MVP skills for the Expo + Supabase stack, project scope only: Expo plugin, `react-native-testing`, `vercel-react-native-skills`, `vercel-composition-patterns`. Each source was cloned and read first (Markdown only, except Expo's two small helper scripts and hosted MCP server). Supabase skills were already installed globally. Links: [[Architecture#Repository tooling]]
   - Tests: fresh Claude session in this repo lists all new skills; safeguards hook now also asks before `eas build` / `eas deploy` (45/45 cases still pass).

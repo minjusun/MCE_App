@@ -6,7 +6,7 @@ updated: 2026-10-21
 
 # Architecture
 
-Expo Router–style file layout (`app/` routes, `(tabs)` group), with Supabase as the backend (`lib/supabase.ts`). Back to [[Home]].
+Expo Router–style file layout (`app/` routes, `(tabs)` group), with Supabase as the backend (`lib/supabase.ts`). The database schema, security model and migration workflow are in [[Database]]. Back to [[Home]].
 
 ## Screens (all 📋 planned, files empty)
 
@@ -54,6 +54,11 @@ Wireframe screens with no route file yet: **Account** (profile, public binder se
 | `.github/workflows/claude-checks.yml`, `.claude/ci-setup.sh` | CI on every PR and push to `main`: the same `ship.mjs check --e2e` (installs Playwright first) |
 | `.githooks/` | Git hooks (enabled via `core.hooksPath`): secret scan on commit, push guard for Claude |
 | `docs/MCE/` | This Obsidian vault |
+| `supabase/config.toml`, `supabase/migrations/` | Supabase CLI project (Postgres 17) and version-controlled schema migrations; see [[Database]] |
+| `supabase/tests/database/` | pgTAP tests: schema, constraints, RLS, trades. Run with `npm run test:db` (PGlite) or `npx supabase test db` |
+| `scripts/db-test/` | PGlite test runner plus a small stand-in for Supabase's auth schema and roles |
+| `.github/workflows/database.yml` | CI on Supabase's Postgres image: migrations, pgTAP tests, advisors, type check |
+| `package.json` | Dev tooling only so far (pinned Supabase CLI, PGlite); the Expo app will add to it |
 | `.claude/skills/`, `skills-lock.json` | Project skills: `react-native-testing` (from callstack/react-native-testing-library), `vercel-react-native-skills`, `vercel-composition-patterns` (from vercel-labs/agent-skills). Update with `npx skills update` |
 | `.claude/settings.json` → `enabledPlugins` | Expo's official plugin (`expo@claude-plugins-official`, project scope): 24 Expo/EAS skills and Expo's hosted MCP server |
 
