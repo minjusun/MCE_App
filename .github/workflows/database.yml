@@ -1,0 +1,43 @@
+# Validates migrations and pgTAP tests against Supabase's real Postgres image, runs the
+# security/performance advisors, and checks the committed TypeScript types are current.
+name: Database
+on:
+  pull_request:
+    paths: ['supabase/**', 'scripts/db-test/**', 'types/database.ts', 'package.json', 'package-lock.json', '.github/workflows/database.yml']
+  push:
+    branches: [main]
+    paths: ['supabase/**', 'scripts/db-test/**', 'types/database.ts', 'package.json', 'package-lock.json', '.github/workflows/database.yml']
+permissions:
+  contents: read
+concurrency:
+  group: database-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  supabase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Start Supabase Postgres and apply migrations
+        run: npx supabase db start
+      - name: pgTAP tests on the Supabase database
+        run: npx supabase test db
+      - name: Security and performance advisors
+        run: npx supabase db advisors --local --type all --level warn --fail-on error
+      - name: Generate TypeScript types
+        run: npx supabase gen types typescript --local --schema public > database.generated.ts
+      - name: Committed types must match the schema
+        run: |
+          if [ ! -f types/database.ts ]; then echo "::warning::types/database.ts is not committed yet; download the database-types artifact"; exit 0; fi
+          diff -u --strip-trailing-cr types/database.ts database.generated.ts || { echo "::error::types/database.ts is out of date. Run npm run db:types (or use the database-types artifact)."; exit 1; }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: database-types
+          path: database.generated.ts
+          if-no-files-found: ignore
