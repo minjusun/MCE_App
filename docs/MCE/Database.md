@@ -6,6 +6,9 @@ updated: 2026-10-22
 
 # Database
 
+> [!important] Source of truth
+> Setup and the actual implementation are documented in the repo: `ONBOARDING.md` and `ARCHITECTURE.md` at the repository root. This note keeps the full design rationale; `ARCHITECTURE.md` has the current summary and wins on any conflict.
+
 Supabase Postgres (17 on hosted projects). The schema lives in version-controlled migrations under `supabase/migrations/`; this note explains it. Back to [[Home]]. Related: [[Architecture]], [[Decisions]].
 
 > [!info] Status

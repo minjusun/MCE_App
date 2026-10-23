@@ -6,6 +6,9 @@ updated: 2026-10-23
 
 # Architecture
 
+> [!important] Source of truth
+> Setup and the actual implementation are documented in the repo: `ONBOARDING.md` and `ARCHITECTURE.md` at the repository root. This note adds detail on screens and tooling; `ARCHITECTURE.md` wins on any conflict.
+
 Expo SDK 58 app (React Native 0.88, React 19.3, TypeScript 6, Expo Router) with Supabase as the backend (`lib/supabase.ts`). Routes live in `app/` at the repo root (kept from the original scaffold rather than moving to `src/app/`); `@/*` imports resolve from the repo root. Navigators come from `expo-router/stack` and `expo-router/js-tabs` (the root `Tabs` export is deprecated in SDK 58). Runs on web, iOS and Android; `npm run web` serves it on localhost:8081. The database schema, security model and migration workflow are in [[Database]]. Back to [[Home]].
 
 ## Screens (🚧 routes exist as placeholders)

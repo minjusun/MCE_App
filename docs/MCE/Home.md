@@ -16,6 +16,9 @@ A mobile app (working title **BINDER**: "collect, trade, sell") for collectors t
 
 ## Current state
 
+> [!important] Source of truth
+> Setup and the actual implementation are documented in the repo: `ONBOARDING.md` and `ARCHITECTURE.md` at the repository root. This vault keeps product notes, decisions and the development log; if a note disagrees with the repo docs or the code, the repo wins.
+
 The repo is scaffolded: the route, component and library files exist but are empty, so no app feature is implemented yet.
 
 | Area | Status |
