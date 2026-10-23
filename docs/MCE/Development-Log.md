@@ -8,6 +8,12 @@ updated: 2026-10-21
 
 Newest first. Back to [[Home]].
 
+## 2026-10-23
+- Expo SDK 58 app set up on the existing layout: root and tab layouts, placeholder screens for all 14 routes, design tokens, typed Supabase client, generated `types/database.ts`, money and portfolio maths with tests. Quality gate now real: lint, type check, unit tests, web build, audit (with reviewed exceptions). Links: [[Architecture]], [[Decisions]]
+  - Tests: `ship.mjs check --e2e` → 7 PASS (lint, types, 9 Jest tests, web build of all routes, audit, 129 DB tests, secret scan), 1 SKIP (wireframe smoke test: Playwright not installed locally; runs in CI). App clicked through on localhost:8081 at 1280px and 390px: all four tabs and a product route render, no console errors.
+  - Commit/PR: branch `feat/expo-app`; PR link added when opened.
+- PR #2 (database foundation) merged; CI ran all 129 pgTAP tests on Supabase Postgres 17 (pass) and the advisors (0 security findings, 2 performance warnings about overlapping read policies). Applying it to the shared dev project is pending the Supabase CLI login.
+
 ## 2026-10-22
 - Database foundation for the MVP: Supabase CLI project, migration `20261022020652_mvp_schema` (7 tables, RLS on all, explicit Data API grants, trade transition rules), pgTAP tests, PGlite runner and a Database CI workflow. Not applied to the shared dev project. Links: [[Database]], [[Decisions]]
   - Review: `security-auditor` (no critical/high; 3 medium, 5 low) and `code-reviewer` (1 blocking: the test runner could report PASS with no tests; 6 should-fix). All fixed: trade terms locked at creation via `propose_trade`, holdings deletable after finished trades, costs can't follow ownership changes, one counter per trade, offer limit, unique raw/sealed variants, column-level grants, quantity guard, inbox indexes.
