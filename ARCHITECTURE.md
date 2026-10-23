@@ -107,6 +107,7 @@ None configured. Market prices will come from a third-party provider (research i
 | CI: `.github/workflows/database.yml` | When database files change: migrations and pgTAP tests on Supabase's image, security/performance advisors, check that `types/database.ts` is current |
 | CI: `.github/workflows/documentation-check.yml` | Every PR: docs accuracy, and that setup-sensitive changes come with docs updates or an explicit "no docs needed" |
 | Local guards | `.githooks/` (secret scan on commit; push guard for Claude Code) and `.claude/hooks/git-guard.mjs` |
+| Claude Code ↔ Supabase | `.mcp.json`: Supabase's hosted MCP server, limited by `SUPABASE_PROJECT_REF` to the shared dev project, with read-write access. Each developer signs in with their own Supabase account (⚙️ setup per [ONBOARDING.md](ONBOARDING.md#claude-code-optional-shared-through-the-repo)) |
 
 ## Important decisions
 

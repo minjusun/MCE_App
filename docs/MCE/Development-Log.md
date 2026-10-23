@@ -9,6 +9,9 @@ updated: 2026-10-21
 Newest first. Back to [[Home]].
 
 ## 2026-10-23
+- Shared Supabase access for Claude Code: `.mcp.json` adds Supabase's hosted MCP server, limited to the shared dev project through `SUPABASE_PROJECT_REF`, with read-write access. Each developer sets the variable in their shell and signs in with `/mcp`. Links: [[Architecture#Repository tooling]]
+  - Tests: `claude mcp get supabase` reads the server from `.mcp.json` (pending approval); docs-check passes. Connecting and signing in to Supabase not yet tested (no project ref on this machine).
+  - Commit/PR: branch `chore/supabase-mcp`.
 - Developer docs and their upkeep: `ONBOARDING.md`, `ARCHITECTURE.md`, `README.md`, PR template, `docs-review` project skill, `CLAUDE.md` rules, `scripts/docs-check.mjs` (added to `ship.mjs check`) and the **Documentation** PR workflow. Links: [[Decisions]], [[Architecture]]
   - Tests: docs-check passes on the new docs; scenario tests and CI results in the PR.
   - Commit/PR: branch `docs/onboarding-automation`.
