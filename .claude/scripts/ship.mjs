@@ -48,7 +48,7 @@ function detectChecks({ e2e }) {
     const e2eScript = ['test:e2e', 'e2e'].find(k => s[k]);
     if (e2eScript) e2e ? add('e2e', 'end-to-end tests', run(e2eScript)) : skip('e2e', 'end-to-end tests', 'pass --e2e to run (CI does)');
     s.build ? add('build', 'build', run('build')) : skip('build', 'build', 'no "build" script');
-    if (pm === 'npm' && existsSync('package-lock.json')) add('security', 'dependency audit', 'npm audit --omit=dev --audit-level=high');
+    if (pm === 'npm' && existsSync('package-lock.json')) add('security', 'dependency audit', existsSync('.claude/scripts/audit.mjs') ? 'node .claude/scripts/audit.mjs' : 'npm audit --omit=dev --audit-level=high');
     else if (pm === 'pnpm') add('security', 'dependency audit', 'pnpm audit --prod --audit-level high');
     else skip('security', 'dependency audit', `no supported lockfile audit for ${pm}`);
   }

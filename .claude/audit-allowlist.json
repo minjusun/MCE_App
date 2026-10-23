@@ -1,0 +1,12 @@
+[
+  {
+    "id": "GHSA-vfj7-8cjw-p6xm",
+    "reason": "braces DoS on deeply nested glob patterns. Only reached through Metro's dev-server/bundler file matching, which reads our own repo, not user input; not in the app bundle. No patched braces release exists (3.0.3 is latest).",
+    "expires": "2027-01-22"
+  },
+  {
+    "id": "GHSA-86w9-cpqp-85rv",
+    "reason": "node-forge RSA signature check, used by @expo/cli for expo-updates code signing. The app does not use EAS Update code signing; not in the app bundle. No patched node-forge release exists (1.4.0 is latest).",
+    "expires": "2027-01-22"
+  }
+]
