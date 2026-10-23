@@ -8,6 +8,17 @@ updated: 2026-10-21
 
 Dated records of choices worth remembering. Newest first. Back to [[Home]].
 
+## 2026-10-23 · Expo app setup: keep root `app/`, docs-first SDK 58 choices, audit exceptions
+
+- **Context:** turning the empty scaffold into a runnable Expo app with real quality checks.
+- **Decisions:**
+  - Keep routes in root `app/` (the committed, documented layout) instead of the template's `src/app/`; `@/*` maps to the repo root.
+  - Follow the SDK 58 docs, not memory: navigators from `expo-router/stack` and `expo-router/js-tabs`; Supabase session storage via `expo-sqlite/localStorage` (no AsyncStorage or URL polyfill); Jest 30 + jest-expo + React Native Testing Library 14.
+  - Packages installed with `npx expo install` so versions match the SDK; `@supabase/supabase-js` pinned exactly.
+  - Every route gets a placeholder screen so navigation and the web build work end to end; real screens replace them feature by feature.
+  - Dependency audit uses a reviewed allowlist with expiry dates (`.claude/audit-allowlist.json`). Two advisories in Expo's build tooling (`braces` via Metro, `node-forge` via Expo CLI code signing) have no patched release and don't reach the app bundle; review by 2027-01-22.
+- **Alternatives:** moving to `src/app/` (rejected: churn for no gain); disabling the audit (rejected: would hide new advisories); downgrading Expo as npm suggests (not viable).
+
 ## 2026-10-22 · MVP database: variants on holdings, private costs, ownership by foreign key
 
 - **Context:** the first schema for portfolio, marketplace and trading, shared by two developers on one dev project.

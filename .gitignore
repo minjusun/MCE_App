@@ -6,3 +6,17 @@ docs/MCE/.obsidian/workspace*.json
 *.key
 .claude/settings.local.json
 node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+*.tsbuildinfo
+.metro-health-check*
+/ios
+/android
+.env*.local
+
+# Playwright MCP browser logs
+.playwright-mcp/

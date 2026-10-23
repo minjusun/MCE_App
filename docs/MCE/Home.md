@@ -20,8 +20,8 @@ The repo is scaffolded: the route, component and library files exist but are emp
 
 | Area | Status |
 | --- | --- |
-| Expo app screens | 📋 Planned (files empty) |
-| Supabase database: schema, RLS, tests | 🚧 Migration written and tested; not yet applied to the shared dev project. See [[Database]] |
+| Expo app (SDK 58): routes, navigation, typed Supabase client, lint/types/tests/build | 🚧 Running with placeholder screens. See [[Architecture]] |
+| Supabase database: schema, RLS, tests | 🚧 Merged (PR #2); 129 tests pass on Supabase Postgres 17 in CI. Not yet applied to the shared dev project. See [[Database]] |
 | Clickable wireframe with dark design system | ✅ Redesigned 2026-10-21 (uncommitted) |
 | Git workflow: feature branches, checks, guarded pushes, PRs | ✅ Set up 2026-10-21 (uncommitted) |
 | Price data source | 🚧 Researching; see [[Projects/Collectibles Trading Platform/10 - Price Data Source|Price Data Source]] |
