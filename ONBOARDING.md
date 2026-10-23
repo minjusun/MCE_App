@@ -11,7 +11,7 @@ BINDER helps Pokémon collectors track a portfolio, buy and sell on a marketplac
 | Area | Status |
 | --- | --- |
 | App shell: navigation and placeholder screens for every route | ✅ |
-| Database: schema, Row Level Security, trade rules, tests | ✅ in `supabase/migrations/`; 🚧 not yet applied to the shared dev project |
+| Database: schema, Row Level Security, trade rules, tests | ✅ in `supabase/migrations/`, applied to the shared dev project |
 | Typed Supabase client (`lib/supabase.ts`) | ✅ configured, not yet used by any screen |
 | Portfolio maths (`lib/pricing.ts`) and formatting (`lib/format.ts`) | ✅ with unit tests |
 | Portfolio, marketplace and trading screens | 📋 placeholders only; the design is in `wireframe/WF_reference.html` |
@@ -99,7 +99,7 @@ The schema, RLS policies and trade rules are in `supabase/migrations/`; the desi
   3. Open a PR. CI runs the tests on Supabase's own Postgres image, runs the security advisors, and checks that `types/database.ts` matches the schema.
   4. After merging, **one** of you applies it: `npx supabase db push --dry-run`, then `npx supabase db push`. Never change the schema in the dashboard.
 - **Database types:** `types/database.ts` is generated. `npm run db:types` regenerates it but needs a local Supabase stack (`npx supabase start`, which requires Docker). Without Docker, download the `database-types` artifact from the PR's **Database** workflow run.
-- 🚧 The schema is merged but **not yet applied** to the shared dev project.
+- ✅ The schema is applied to the shared dev project (migration `20261022020652_mvp_schema`).
 
 ## 7. Authentication and external services
 

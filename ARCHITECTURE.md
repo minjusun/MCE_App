@@ -31,7 +31,7 @@ flowchart LR
 
 ## Database
 
-Schema: `supabase/migrations/20261022020652_mvp_schema.sql` (✅ merged and tested; 🚧 not yet applied to the shared dev project).
+Schema: `supabase/migrations/20261022020652_mvp_schema.sql` (✅ merged, tested and applied to the shared dev project).
 
 ```mermaid
 erDiagram
