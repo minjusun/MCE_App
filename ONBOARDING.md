@@ -181,6 +181,7 @@ When a change affects setup or design (dependencies, env vars, migrations, auth,
 | npm prints `install-scripts … not yet covered by allowScripts` | Expected with npm 11; the skipped scripts (`@parcel/watcher`, `unrs-resolver`) aren't needed. Everything still passes |
 | Commits aren't scanned for secrets | Run `git config core.hooksPath .githooks` (step 3 of setup) |
 | Claude Code's `supabase` MCP server fails to connect or warns about a missing variable | `SUPABASE_PROJECT_REF` isn't set where Claude Code runs. Set it in your shell (see [Claude Code](#claude-code-optional-shared-through-the-repo)), restart VS Code, then sign in again with `/mcp` |
+| `npm ci` fails with `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` or "Exit handler never called" (macOS, Homebrew Node) | Homebrew's CA bundle is missing. Run `brew postinstall ca-certificates` and `brew postinstall openssl@3`, then retry |
 | `supabase: command not found` | Use `npx supabase …`; the CLI is a dev dependency |
 | `npx supabase start`, `npx supabase test db` or `npm run db:types` fail | They need Docker running. Use `npm run test:db` and the CI types artifact instead |
 | Database workflow fails on "Committed types must match the schema" | Regenerate `types/database.ts` (`npm run db:types`, or download the `database-types` artifact) and commit it |
