@@ -1,0 +1,31 @@
+# Developer docs must keep up with setup-sensitive changes (dependencies, env vars, migrations, CI,
+# Claude Code config). Passes when ONBOARDING.md / ARCHITECTURE.md changed, or when the PR description
+# ticks "No documentation changes needed". Also checks the docs' links, paths, npm scripts and env vars.
+name: Documentation
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+permissions:
+  contents: read
+concurrency:
+  group: docs-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check documentation
+        env:
+          # passed through env, never interpolated into the script, so PR text can't inject commands
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          printf '%s' "$PR_BODY" > "$RUNNER_TEMP/pr-body.md"
+          node scripts/docs-check.mjs --pr --base "$BASE_SHA" --body-file "$RUNNER_TEMP/pr-body.md"
