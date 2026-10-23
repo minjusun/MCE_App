@@ -8,6 +8,12 @@ updated: 2026-10-21
 
 Dated records of choices worth remembering. Newest first. Back to [[Home]].
 
+## 2026-10-23 · Repo docs are the source of truth, enforced on every PR
+
+- **Context:** two developers on different machines need setup and design docs that stay correct as the stack changes; the Obsidian vault is personal and optional.
+- **Decision:** `ONBOARDING.md` and `ARCHITECTURE.md` at the repo root are canonical. `CLAUDE.md` requires updating them in the same PR as setup or design changes (the `docs-review` project skill guides it). `scripts/docs-check.mjs` checks their links, anchors, paths, npm scripts and env vars, and the **Documentation** workflow fails a PR that changes setup-sensitive files without updating them, unless the PR ticks "No documentation changes needed" with a reason. The vault keeps decisions, product notes and the log, and points to the repo docs.
+- **Alternatives:** keeping setup docs only in Obsidian (rejected: not everyone has the vault); requiring doc edits on every PR (rejected: noise); a Claude Code hook (rejected: the partner might not use Claude Code, and CI covers everyone).
+
 ## 2026-10-23 · Expo app setup: keep root `app/`, docs-first SDK 58 choices, audit exceptions
 
 - **Context:** turning the empty scaffold into a runnable Expo app with real quality checks.

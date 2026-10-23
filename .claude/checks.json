@@ -7,6 +7,11 @@
     "hint": "run npm install"
   },
   {
+    "name": "docs check",
+    "kind": "docs",
+    "cmd": "node scripts/docs-check.mjs --pr --base origin/main"
+  },
+  {
     "name": "wireframe smoke test",
     "kind": "e2e",
     "cmd": "node tests/wireframe-smoke.mjs",
