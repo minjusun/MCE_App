@@ -55,6 +55,7 @@ Wireframe screens with no route file yet: **Account** (profile, public binder se
 | `CLAUDE.md` | Project instructions for Claude Code, including the Git workflow |
 | `.claude/settings.json`, `.claude/hooks/git-guard.mjs` | Claude Code permissions and the hook that enforces the Git workflow |
 | `.claude/scripts/ship.mjs` | Quality gate (lint, types, unit/integration tests, build, secret scan, dependency audit; `--e2e` for browser tests), then pushes a feature branch and opens or updates its PR |
+| `.mcp.json` | Shared MCP config: Supabase's hosted MCP server for the shared dev project, with read-write access; each developer signs in with their own account |
 | `.claude/checks.json` | Repo-specific extra checks: database tests, wireframe smoke test |
 | `.claude/scripts/audit.mjs`, `.claude/audit-allowlist.json` | Dependency audit: fails on high/critical advisories in production dependencies except reviewed, expiring exceptions |
 | `app.json`, `tsconfig.json`, `eslint.config.js` | Expo config (name BINDER, dark UI, web static output), strict TypeScript, Expo ESLint flat config (app code only) |

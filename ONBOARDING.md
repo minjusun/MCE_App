@@ -11,7 +11,7 @@ BINDER helps Pokémon collectors track a portfolio, buy and sell on a marketplac
 | Area | Status |
 | --- | --- |
 | App shell: navigation and placeholder screens for every route | ✅ |
-| Database: schema, Row Level Security, trade rules, tests | ✅ in `supabase/migrations/`; 🚧 not yet applied to the shared dev project |
+| Database: schema, Row Level Security, trade rules, tests | ✅ in `supabase/migrations/`, applied to the shared dev project |
 | Typed Supabase client (`lib/supabase.ts`) | ✅ configured, not yet used by any screen |
 | Portfolio maths (`lib/pricing.ts`) and formatting (`lib/format.ts`) | ✅ with unit tests |
 | Portfolio, marketplace and trading screens | 📋 placeholders only; the design is in `wireframe/WF_reference.html` |
@@ -78,7 +78,7 @@ All variables are listed in `.env.example`. Ask your partner for the shared dev 
 | `EXPO_PUBLIC_SUPABASE_URL` | the app | talking to Supabase |
 | `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | the app | talking to Supabase. Publishable key only; it's bundled into the app and safe because RLS protects the data |
 | `SUPABASE_ACCESS_TOKEN` | Supabase CLI | linking and pushing migrations. Use a **scoped** personal access token limited to this project |
-| `SUPABASE_PROJECT_REF` | Supabase CLI | `supabase link` |
+| `SUPABASE_PROJECT_REF` | Supabase CLI, Claude Code | `supabase link`, and the Supabase MCP server in `.mcp.json`. For Claude Code it must be set in your shell, not only in `.env` (see [Claude Code](#claude-code-optional-shared-through-the-repo)) |
 | `SUPABASE_DB_PASSWORD` | Supabase CLI | `supabase db push` |
 
 Only `EXPO_PUBLIC_` variables reach the app, and everything with that prefix is public. The service-role (secret) key must never appear in the app, `.env.example`, the repo or the docs.
@@ -99,7 +99,7 @@ The schema, RLS policies and trade rules are in `supabase/migrations/`; the desi
   3. Open a PR. CI runs the tests on Supabase's own Postgres image, runs the security advisors, and checks that `types/database.ts` matches the schema.
   4. After merging, **one** of you applies it: `npx supabase db push --dry-run`, then `npx supabase db push`. Never change the schema in the dashboard.
 - **Database types:** `types/database.ts` is generated. `npm run db:types` regenerates it but needs a local Supabase stack (`npx supabase start`, which requires Docker). Without Docker, download the `database-types` artifact from the PR's **Database** workflow run.
-- 🚧 The schema is merged but **not yet applied** to the shared dev project.
+- ✅ The schema is applied to the shared dev project (migration `20261022020652_mvp_schema`).
 
 ## 7. Authentication and external services
 
@@ -151,6 +151,10 @@ Everything below is committed, so it works for both of you without extra setup:
   - Permissions.
   - The Git guard hook (`.claude/hooks/git-guard.mjs`): blocks direct or force pushes, merges, committing on `main`, bulk staging, and Git writes by subagents.
   - Expo's official plugin, which adds Expo/EAS skills plus an Expo MCP server that asks you to sign in the first time.
+- **`.mcp.json`:** Supabase's hosted MCP server, limited to the shared dev project and with write access, so Claude can query the database, read logs and advisors, run SQL and deploy edge functions. Schema changes still go through migrations and PRs ([section 6](#6-database-supabase)). ⚙️ One-time setup per machine:
+  1. Set `SUPABASE_PROJECT_REF` in your shell, because Claude Code doesn't read `.env`. On macOS, add `export SUPABASE_PROJECT_REF=<ref>` to `~/.zshrc`. On Windows, run `setx SUPABASE_PROJECT_REF <ref>`. Then restart VS Code or your terminal.
+  2. Start Claude Code in the repo and approve the `supabase` server when asked.
+  3. Run `/mcp`, choose `supabase` and sign in to Supabase in the browser with your own account.
 - **Project skills in `.claude/skills/`:**
   - `docs-review`: run `/docs-review` before opening a PR.
   - `react-native-testing`, `vercel-react-native-skills` and `vercel-composition-patterns`, pinned in `skills-lock.json`.
@@ -176,6 +180,8 @@ When a change affects setup or design (dependencies, env vars, migrations, auth,
 | Port 8081 already in use | Another Expo server is running. Stop it, or answer "yes" when Expo offers another port |
 | npm prints `install-scripts … not yet covered by allowScripts` | Expected with npm 11; the skipped scripts (`@parcel/watcher`, `unrs-resolver`) aren't needed. Everything still passes |
 | Commits aren't scanned for secrets | Run `git config core.hooksPath .githooks` (step 3 of setup) |
+| Claude Code's `supabase` MCP server fails to connect or warns about a missing variable | `SUPABASE_PROJECT_REF` isn't set where Claude Code runs. Set it in your shell (see [Claude Code](#claude-code-optional-shared-through-the-repo)), restart VS Code, then sign in again with `/mcp` |
+| `npm ci` fails with `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` or "Exit handler never called" (macOS, Homebrew Node) | Homebrew's CA bundle is missing. Run `brew postinstall ca-certificates` and `brew postinstall openssl@3`, then retry |
 | `supabase: command not found` | Use `npx supabase …`; the CLI is a dev dependency |
 | `npx supabase start`, `npx supabase test db` or `npm run db:types` fail | They need Docker running. Use `npm run test:db` and the CI types artifact instead |
 | Database workflow fails on "Committed types must match the schema" | Regenerate `types/database.ts` (`npm run db:types`, or download the `database-types` artifact) and commit it |

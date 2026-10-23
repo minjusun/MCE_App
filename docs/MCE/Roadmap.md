@@ -8,7 +8,7 @@ updated: 2026-10-23
 
 Order of work. Back to [[Home]].
 
-- 🚧 Database foundation ([[Database]]): ✅ merged and CI-verified; next: apply to the shared dev project (needs `supabase login` + link)
+- ✅ Database foundation ([[Database]]): merged, CI-verified and applied to the shared dev project
 - ✅ Project setup: Expo SDK 58 app, Supabase client, lint/types/tests/build in CI ([[Architecture]])
 - 📋 Auth and login
 - 📋 Tab screens: Home, Portfolio, Shop, Trades

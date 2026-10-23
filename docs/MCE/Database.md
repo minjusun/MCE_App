@@ -12,7 +12,7 @@ updated: 2026-10-22
 Supabase Postgres (17 on hosted projects). The schema lives in version-controlled migrations under `supabase/migrations/`; this note explains it. Back to [[Home]]. Related: [[Architecture]], [[Decisions]].
 
 > [!info] Status
-> 🚧 Migration `20261022020652_mvp_schema.sql` is written, independently reviewed (security audit plus code review, all findings fixed), and covered by 129 pgTAP tests. Every test also fails when its rule is deliberately broken. **Not applied to the shared dev project yet**; that needs both developers' review first.
+> ✅ Migration `20261022020652_mvp_schema.sql` is written, independently reviewed (security audit plus code review, all findings fixed), and covered by 129 pgTAP tests. Every test also fails when its rule is deliberately broken. Applied to the shared dev project on 2026-10-23.
 
 ## Tables
 

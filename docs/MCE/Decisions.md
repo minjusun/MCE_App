@@ -8,6 +8,12 @@ updated: 2026-10-21
 
 Dated records of choices worth remembering. Newest first. Back to [[Home]].
 
+## 2026-10-23 · Shared Supabase MCP server, read-write, one project
+
+- **Context:** both developers share one Supabase dev project and want Claude Code to query and change it directly.
+- **Decision:** a committed `.mcp.json` adds Supabase's hosted MCP server with write access, limited to the shared project through `?project_ref=${SUPABASE_PROJECT_REF}`. The ID comes from each developer's shell, so it isn't committed, and each developer signs in with their own Supabase account. Schema changes still go through migrations and PRs.
+- **Alternatives:** read-only access (Supabase's default advice; rejected: the team wants Claude to make changes); per-developer local config (rejected: the setup should be shared); no `project_ref` (rejected: write access would reach every project on the account).
+
 ## 2026-10-23 · Repo docs are the source of truth, enforced on every PR
 
 - **Context:** two developers on different machines need setup and design docs that stay correct as the stack changes; the Obsidian vault is personal and optional.
